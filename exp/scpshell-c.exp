@@ -7,10 +7,10 @@ set server [lindex $argv 0]
 
 set file [lindex $argv 1]
 
-spawn scp $file $server:/data/appdata/payServer/download/
+spawn scp $file $server:/
 
 expect {
-        "*password:\ " {send "Mi4KB^GX!!Le\r"}
+        "*password:\ " {send "1234\r"}
 }
 
 send "exit\r"

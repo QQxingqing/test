@@ -8,8 +8,7 @@ set server [lindex $argv 0]
 spawn ssh $server
 
 expect {
-#        "*password:\ " {send "Mile1234\r"}
-        "*password:\ " {send "Mi4KB^GX!!Le\r"}
+        "*password:\ " {send "1234\r"}
 }
 
 expect "*]#\ "

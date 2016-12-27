@@ -2,29 +2,17 @@
 set server [lindex $argv 0]
 set timeout 30
 spawn ssh $server
-#expect {
-#"*password:" { send "$password\r" }
-#}
 expect "*]$\ "
-send "cd /data/appdata/payServer/download\r"
+send "cd /\r"
 expect "*]$\ "
-#send "cp -R payServer payServer0802_1"
-#expect "*]#\ "
-#send "cd /data/appdata/payServer/download\r"
-#send "pwd\r"
-#expect "*]#\ "
 
-#send "unzip AN_path.zip\r"
-send "unzip IOSgongsi_path.zip\r"
-#send "unzip IOSgeren_path.zip\r"
+send "unzip *.zip\r"
 
 expect "replace"
 send "A\r"
 expect "*]$\ "
 
-#send "rm -f AN_path.zip\r"
-send "rm -f IOSgongsi_path.zip\r"
-#send "rm -f IOSgeren_path.zip\r"
+send "rm -f *.zip\r"
 
 expect "*]$\ "
 send  "exit\r"
