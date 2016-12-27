@@ -1,0 +1,18 @@
+#!/usr/bin/expect -f
+
+
+set timeout 30
+
+set server [lindex $argv 0]
+
+set file [lindex $argv 1]
+
+spawn scp $file $server:/data/appdata/payServer/download/
+
+expect {
+        "*password:\ " {send "Mi4KB^GX!!Le\r"}
+}
+
+send "exit\r"
+
+expect eof
