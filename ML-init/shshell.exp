@@ -1,0 +1,16 @@
+#!/usr/bin/expect -f  
+set server [lindex $argv 0]
+set type [lindex $argv 1]
+set password 1234
+set timeout 30
+spawn ssh -o PubkeyAuthentication=no root@$server
+expect {
+"*yes/no" { send "yes\r"; exp_continue}
+"*password:" { send "$password\r" }
+}
+expect "*]#\ "
+send "/bin/bash /root/shell/init.sh $server $type \r"
+#send "pwd\r"
+expect "*]#\ "
+send  "exit\r"
+expect eof

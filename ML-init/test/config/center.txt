@@ -1,0 +1,5 @@
+cd /data/build
+touch 111
+sleep 2
+cd /data/appdata/
+touch 33333

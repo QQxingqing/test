@@ -1,0 +1,11 @@
+#!/usr/bin/expect -f  
+set server [lindex $argv 0]
+set timeout 1
+spawn /usr/bin/ssh spider@$server
+expect {
+"*yes/no" { send "yes\r"}
+}
+expect "~]?\ "
+send "hostname\r"
+send "exit\r"
+expect eof

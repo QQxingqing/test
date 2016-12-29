@@ -1,0 +1,17 @@
+#!/usr/bin/expect -f  
+set server [lindex $argv 0]
+set timeout 1
+#spawn ssh -o PubkeyAuthentication=no $server
+spawn ssh $server
+expect {
+"*yes/no" { send "yes\r"}
+"*password:" { send "1234\r" }
+}
+expect "*]#\ "
+send "pwd\r"
+#send "echo 'PubkeyAuthentication no' >> /etc/ssh/sshd_config\r"
+#expect "*]#\ "
+#send "/etc/init.d/sshd restart\r"
+expect "*]#\ "
+send "exit\r"
+expect eof

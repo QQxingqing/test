@@ -1,0 +1,41 @@
+#!/usr/bin/expect -f
+
+if {$argc < 2} {
+	send_user "usage: $argv0 <server> <cmdfile> \n"
+	exit
+}
+
+set timeout 10
+
+set server [lindex $argv 0]
+#set rootpd [lindex $argv 1]
+set cmdfile [ open [lindex $argv 1] ]
+
+log_file log/run.log
+
+spawn ssh $server
+expect {
+	"yes/no)?\ "   {send "yes\r";exp_continue}
+}
+
+# Login as Root
+expect "*]$\ " {send "su - root\r"}
+expect "*assword:\ " {send "1234\r"}
+
+
+expect "*]$\ " {
+	while { [gets $cmdfile cmd] >= 0 } {
+		send "$cmd\r"
+	}	
+}
+
+# Exit Root
+expect "*]#\ " {send "exit\r"}
+
+# Exit User
+expect "*]$\ " {send "exit\r"}
+
+
+close $cmdfile
+
+expect eof

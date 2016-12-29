@@ -1,0 +1,17 @@
+#!/usr/bin/expect -f
+
+
+set timeout 30
+
+set server [lindex $argv 0]
+
+spawn scp -r -o PubkeyAuthentication=no app shell $server:~
+
+expect {
+        "yes/no)?\ "  {send "yes\r";exp_continue}
+        "*password:\ " {send "1234\r"}
+}
+
+send "exit\r"
+
+expect eof

@@ -1,0 +1,37 @@
+#!/usr/bin/expect -f
+
+if {$argc < 1} {
+	send_user "usage: $argv0 <server> \n"
+	exit
+}
+
+set timeout 5
+
+set server [lindex $argv 0]
+set cmdfile [ open gm.txt ]
+
+log_file log/run.log
+
+spawn scp /home/spider/1.txt $server:/data/build/
+expect {
+	"yes/no)?\ "  {send "yes\r";exp_continue}
+#	"*password:\ " {send "$passwd\r"}
+}
+
+spawn ssh $server
+expect {
+	"yes/no)?\ "   {send "yes\r";exp_continue}
+}
+
+expect "*]$\ " {
+	while { [gets $cmdfile cmd] >=0 } {
+	    send "$cmd\r" 
+	}
+}
+
+
+expect "*]#\ " {send "exit\r"}
+
+close $cmdfile
+
+expect eof

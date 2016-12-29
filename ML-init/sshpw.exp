@@ -1,0 +1,17 @@
+#!/usr/bin/expect -f  
+set server [lindex $argv 0]
+set timeout 1
+spawn ssh -o PubkeyAuthentication=no $server
+expect {
+"*yes/no" { send "yes\r"}
+#"*password:" { send "1234\r" }
+}
+expect "*]#\ "
+send "passwd\r"
+expect "New password:\ "
+send "1234\r"
+expect "Retype new password:\ "
+send "1234\r"
+expect "*]#\ "
+send "exit\r"
+expect eof
